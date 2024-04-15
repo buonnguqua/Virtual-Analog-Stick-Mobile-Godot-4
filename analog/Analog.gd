@@ -1,9 +1,9 @@
 extends Node2D
 
 const INACTIVE_IDX = -1;
-export var _isDynamicallyShowing = false
-export var _listenerNodePath = ""
-export var _name = ""
+@export var _isDynamicallyShowing = false
+@export var _listenerNodePath = ""
+@export var _name = ""
 
 var ball
 var bg 
@@ -65,7 +65,7 @@ func need2ChangeActivePointer(event): #touch down inside analog
 			var lenght = (get_global_position() - Vector2(event.position.x, event.position.y)).length_squared();
 			return lenght < squaredHalfSizeLenght
 	else:
-	 return false
+		return false
 
 func isActive():
 	return currentPointerIDX != INACTIVE_IDX
@@ -88,8 +88,7 @@ func process_input(event):
 	calculateForce(event.position.x - self.get_global_position().x, event.position.y - self.get_global_position().y)
 	updateBallPos()
 	
-	var isReleased = isReleased(event)
-	if isReleased:
+	if isReleased(event):
 		reset()
 
 
@@ -98,7 +97,7 @@ func reset():
 	calculateForce(0, 0)
 
 	if _isDynamicallyShowing:
-		hide()
+		hideAnalog()
 	else:
 		updateBallPos()
 
@@ -107,7 +106,7 @@ func showAtPos(pos):
 		animation_player.play("alpha_in", 0.2)
 		self.set_global_position(pos)
 	
-func hide():
+func hideAnalog():
 	animation_player.play("alpha_out", 0.2) 
 
 func updateBallPos():
@@ -115,7 +114,7 @@ func updateBallPos():
 	ballPos.y = halfSize.y * -currentForce.y #+ halfSize.y
 	ball.set_position(ballPos)
 
-func calculateForce(var x, var y):
+func calculateForce(x, y):
 	#get direction
 	currentForce.x = (x - centerPoint.x)/halfSize.x
 	currentForce.y = -(y - centerPoint.y)/halfSize.y
